@@ -23,7 +23,11 @@ static Resources GetResources()
     return yaml.Deserialize<Resources>(reader);
 }
 
-app.MapGet("resources.yaml", () => (new StreamReader(new FileStream("resources.yaml", FileMode.Open, FileAccess.Read)).ReadToEnd()));
+app.MapGet("resources.yaml", () =>
+{
+    var stream = new FileStream("resources.yaml", FileMode.Open, FileAccess.Read);
+    return Results.Stream(stream, "text/yaml");
+});
 
 app.MapGet("/", (HttpContext context) => new
 {
@@ -36,6 +40,8 @@ app.MapGet("/", (HttpContext context) => new
 
 app.MapGet("/{style}/{form}", (HttpContext context, string style, string form) =>
 {
+    context.Response.ContentType = "application/json; charset=utf8";
+
     var selectedStyle = UiStyle.AdaptiveCards;
 
     if (Enum.TryParse(style, out UiStyle userStyle))

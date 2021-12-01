@@ -1,0 +1,24 @@
+# This file can be consumed by RestClient (VSCode extension)
+
+@server=https://localhost:5001
+
+###
+# @name help
+GET {{server}}
+
+###
+# @name example
+GET {{help.response.body.callExample}}
+
+###
+# @name block_kit
+GET {{server}}/SlackBlockKit/{{help.response.body.forms[0]}}
+
+###
+# @name adaptive_cards
+GET {{server}}/AdaptiveCards/{{help.response.body.forms[0]}}
+
+###
+# @name resource
+GET {{help.response.body.definitions}}
+
