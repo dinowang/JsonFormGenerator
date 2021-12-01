@@ -11,7 +11,15 @@ GET {{server}}
 GET {{help.response.body.callExample}}
 
 ###
-# @name block_kit
+# @name invalid
+GET {{server}}/HelloWorld/FORM1
+
+###
+# @name slack_dialog
+GET {{server}}/SlackDialog/{{help.response.body.forms[0]}}
+
+###
+# @name slack_block_kit
 GET {{server}}/SlackBlockKit/{{help.response.body.forms[0]}}
 
 ###
