@@ -1,0 +1,162 @@
+components:
+  - name: text
+    slack: |
+      {
+        "type": "textarea",
+        "name": "${name}",
+        "label": "${label}",
+        "value": "${value}",
+        "hint": "${placeholder}"
+      }
+    slackBlockKit: |
+      {
+        "type": "input",
+        "element": {
+          "type": "plain_text_input",
+          "action_id": "${name}",
+          "placeholder": {
+            "type": "plain_text",
+            "text": "${placeholder}"
+          }
+        },
+        "label": {
+          "type": "plain_text",
+          "text": "${label}"
+        },
+        "hint": {
+          "type": "plain_text",
+          "text": "${placeholder}"
+        }
+      }    
+    adaptiveCards: |
+      {
+          "type": "TextBlock",
+          "text": "${label}",
+          "wrap": true
+      },
+      {
+          "type": "Input.Text",
+          "id": "${name}",
+          "value": "${value}",
+          "placeholder": "${placeholder}"
+      }
+  - name: textarea
+    slack: |
+      {
+        "type": "text",
+        "name": "${name}",
+        "label": "${label}",
+        "value": "${value}",
+        "hint": "${placeholder}"
+      }
+    slackBlockKit: |
+      {
+        "type": "input",
+        "element": {
+          "type": "plain_text_input",
+          "action_id": "${name}",
+          "multiline": true,
+          "placeholder": {
+            "type": "plain_text",
+            "text": "${placeholder}"
+          }
+        },
+        "label": {
+          "type": "plain_text",
+          "text": "${label}"
+        },
+        "hint": {
+          "type": "plain_text",
+          "text": "${placeholder}"
+        }
+      } 
+    adaptiveCards: |
+      {
+          "type": "TextBlock",
+          "text": "${label}",
+          "wrap": true
+      },
+      {
+          "type": "Input.Text",
+          "isMultiline": true,
+          "id": "${name}",
+          "value": "${value}",
+          "placeholder": "${placeholder}"
+      }      
+  - name: choose
+    slack: |
+      {
+        "type": "select",
+        "name": "${name}",
+        "label": "${label}",
+        "value": "${value}",
+        "options": ${select:options},
+        "hint": "${placeholder}"
+      }
+    slackBlockKit: |
+      {
+        "type": "input",
+        "element": {
+          "type": "static_select",
+          "action_id": "${name}",
+          "placeholder": {
+            "type": "plain_text",
+            "text": "${placeholder}",
+            "emoji": true
+          },
+          "options": ${select:options}
+        },
+        "label": {
+          "type": "plain_text",
+          "text": "${label}",
+          "emoji": true
+        }
+      }
+    adaptiveCards: |
+      {
+          "type": "TextBlock",
+          "text": "${label}",
+          "wrap": true
+      },
+      {
+          "type": "Input.ChoiceSet",
+          "id": "${name}",
+          "value": "${value}",
+          "choices": ${select:options},
+          "placeholder": "${placeholder}"
+      }
+
+forms:
+  - name: CREATEVM_WIN_STRESSALL_ELEMENTS
+    tags: [ CREATEVM ]
+    layouts:
+    - use: text
+      label: Input text
+      name: CREATEVM_WIN_STRESSALL_ELEMENTS
+      value: "20.0.0.1337"
+      placeholder: "20.0.0.1337"
+    - use: textarea
+      label: Input textarea
+      name: CREATEVM_WIN_STRESSALL_ELEMENTS_1
+      value: ""
+      placeholder: "Input any comment here..."
+    - use: choose
+      name: CREATEVM_WIN_STRESSALL_ELEMENTS_2
+      label: Select Windows server version
+      value: "1"
+      placeholder: "Windows ..."
+      options:
+      - text: Windows 2018
+        value: "1"
+      - text: Windows 2020
+        value: "2"
+    - use: choose
+      name: CREATEVM_WIN_STRESSALL_ELEMENTS_3
+      label: Select Virtual Machine SKU
+      value: Standard_D2v3
+      placeholder: "Windows ..."
+      options:
+      - text: Standard D2 v3
+        value: Standard_D2v3
+      - text: Standard B2ms
+        value: Standard_B2ms
