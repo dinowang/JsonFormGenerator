@@ -16,7 +16,15 @@ GET {{server}}/HelloWorld/FORM1
 
 ###
 # @name slack_dialog
-GET {{server}}/SlackDialog/{{help.response.body.forms[0]}}
+POST {{server}}/SlackDialog/{{help.response.body.forms[0]}}
+Content-Type: application/json
+
+{
+    "CREATEVM_WIN_STRESSALL_ELEMENTS": "text 1",
+    "CREATEVM_WIN_STRESSALL_ELEMENTS_1": "text 2",
+    "CREATEVM_WIN_STRESSALL_ELEMENTS_2": "2",
+    "CREATEVM_WIN_STRESSALL_ELEMENTS_3": "Standard_B2ms"
+}
 
 ###
 # @name slack_block_kit

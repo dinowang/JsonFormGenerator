@@ -2,6 +2,7 @@ global using JsonFormGenerator;
 global using YamlDotNet;
 global using YamlDotNet.Serialization;
 global using YamlDotNet.Serialization.NamingConventions;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
@@ -38,7 +39,7 @@ app.MapGet("/", (HttpContext context) => new
     definitions = $"{context.Request.Scheme}://{context.Request.Host}/resources.yaml"
 });
 
-app.MapGet("/{style}/{form}", (HttpContext context, string style, string form) =>
+app.Map("/{style}/{form}", async (HttpContext context, string style, string form) =>
 {
     context.Response.ContentType = "application/json; charset=utf8";
 
@@ -47,8 +48,26 @@ app.MapGet("/{style}/{form}", (HttpContext context, string style, string form) =
     if (Enum.TryParse(style, out UiStyle userStyle))
         selectedStyle = userStyle;
 
+    dynamic data = null;
+
     var resources = GetResources();
     var definition = resources.Forms.FirstOrDefault(x => x.Name == form);
+
+    if (context.Request.Method == "POST")
+    {
+        using var reader = new StreamReader(context.Request.Body);
+        var json = await reader.ReadToEndAsync();
+        var para = JsonSerializer.Deserialize<JsonElement>(json);
+
+        foreach (var layout in definition.Layouts.Cast<IDictionary<string, object>>())
+        {
+            if (layout.ContainsKey("name")
+                && para.TryGetProperty(layout["name"] as string, out var value))
+            {
+                layout["value"] = value;
+            }
+        }
+    }
 
     if (definition != null)
         return definition.CreateLayout(resources.Components, selectedStyle, title: "untitled");
