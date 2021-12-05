@@ -16,6 +16,10 @@ GET {{server}}/HelloWorld/FORM1
 
 ###
 # @name slack_dialog
+GET {{server}}/SlackDialog/{{help.response.body.forms[0]}}
+
+###
+# @name slack_dialog_with_value_preset
 POST {{server}}/SlackDialog/{{help.response.body.forms[0]}}
 Content-Type: application/json
 
