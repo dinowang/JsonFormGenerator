@@ -2,7 +2,9 @@ global using JsonFormGenerator;
 global using YamlDotNet;
 global using YamlDotNet.Serialization;
 global using YamlDotNet.Serialization.NamingConventions;
+using System.Text;
 using System.Text.Json;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
@@ -48,8 +50,6 @@ app.Map("/{style}/{form}", async (HttpContext context, string style, string form
     if (Enum.TryParse(style, out UiStyle userStyle))
         selectedStyle = userStyle;
 
-    dynamic data = null;
-
     var resources = GetResources();
     var definition = resources.Forms.FirstOrDefault(x => x.Name == form);
 
@@ -57,15 +57,13 @@ app.Map("/{style}/{form}", async (HttpContext context, string style, string form
     {
         using var reader = new StreamReader(context.Request.Body);
         var json = await reader.ReadToEndAsync();
+        // value presets
         var para = JsonSerializer.Deserialize<JsonElement>(json);
 
-        foreach (var layout in definition.Layouts.Cast<IDictionary<string, object>>())
+        foreach (var layout in definition.Layouts.Cast<IDictionary<string, object>>().Where(x => x.ContainsKey("name")))
         {
-            if (layout.ContainsKey("name")
-                && para.TryGetProperty(layout["name"] as string, out var value))
-            {
+            if (para.TryGetProperty(layout["name"] as string, out var value))
                 layout["value"] = value;
-            }
         }
     }
 

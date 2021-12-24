@@ -2,9 +2,11 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>JsonFormGenerator</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="YamlDotNet" Version="11.2.1"/>
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7"/>
   </ItemGroup>
   <ItemGroup>
     <Content Include="resources.yaml">

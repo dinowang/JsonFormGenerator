@@ -1,6 +1,7 @@
 # This file can be consumed by RestClient (VSCode extension)
 
-@server=https://localhost:5001
+# @server=https://localhost:5001
+@server=https://web-jsonform.azurewebsites.net
 
 ###
 # @name help
